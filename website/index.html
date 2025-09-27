@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FX Rates</title>
+    <style>
+        body {
+            background: #1a1a1a;
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            flex: 1;
+            align-items: center;
+        }
+        .rate-card {
+            background: #2d2d2d;
+            border-radius: 20px;
+            padding: 60px;
+            text-align: center;
+            border: 2px solid #444;
+        }
+        .rate-name {
+            font-size: 4rem;
+            font-weight: bold;
+            margin-bottom: 30px;
+            color: #00ff88;
+        }
+        .rate-value {
+            font-size: 6rem;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        .rate-label {
+            font-size: 2rem;
+            color: #888;
+            margin-bottom: 10px;
+        }
+        .updated {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            color: #666;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="rate-card">
+            <div class="rate-name">MEP AL30</div>
+            <div class="rate-label">ASK</div>
+            <div class="rate-value" id="mep-ask">-</div>
+            <div class="rate-label">BID</div>
+            <div class="rate-value" id="mep-bid">-</div>
+        </div>
+        <div class="rate-card">
+            <div class="rate-name">USDT</div>
+            <div class="rate-label">ASK</div>
+            <div class="rate-value" id="usdt-ask">-</div>
+            <div class="rate-label">BID</div>
+            <div class="rate-value" id="usdt-bid">-</div>
+        </div>
+    </div>
+    <div class="updated" id="updated">Loading...</div>
+
+    <script>
+        const API_URL = 'http://localhost:3000/fx-rates';
+        
+        async function fetchRates() {
+            try {
+                const response = await fetch(API_URL);
+                const data = await response.json();
+                
+                data.rates.forEach(rate => {
+                    if (rate.name === 'mep') {
+                        document.getElementById('mep-ask').textContent = rate.ask;
+                        document.getElementById('mep-bid').textContent = rate.bid;
+                    } else if (rate.name === 'usdt') {
+                        document.getElementById('usdt-ask').textContent = rate.ask;
+                        document.getElementById('usdt-bid').textContent = rate.bid;
+                    }
+                });
+                
+                document.getElementById('updated').textContent = 
+                    `Updated: ${new Date().toLocaleTimeString()}`;
+            } catch (error) {
+                console.error('Error fetching rates:', error);
+                document.getElementById('updated').textContent = 'Error loading data';
+            }
+        }
+        
+        fetchRates();
+        setInterval(fetchRates, 30000); // Update every 30 seconds
+    </script>
+</body>
+</html>
