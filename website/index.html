@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FX Rates</title>
+    <script src="config.js"></script>
     <style>
         body {
             background: #1a1a1a;
@@ -74,7 +75,7 @@
     <div class="updated" id="updated">Loading...</div>
 
     <script>
-        const API_URL = 'https://YOUR_API_GATEWAY_URL/fx-rates';
+        const API_URL = CONFIG.API_URL;
         
         async function fetchRates() {
             try {
