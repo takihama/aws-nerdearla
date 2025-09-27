@@ -11,6 +11,10 @@ Globals:
   Function:
     Timeout: 30
     Runtime: nodejs20.x
+  Api:
+    ThrottleConfig:
+      BurstLimit: 10
+      RateLimit: 5
 
 Resources:
   FxRatesWebsite:
@@ -51,6 +55,7 @@ Resources:
     Properties:
       CodeUri: src/
       Handler: api.handler
+      ReservedConcurrencyLimit: 5
       Environment:
         Variables:
           DATABASE_URL: !Ref DatabaseUrl
