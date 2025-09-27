@@ -61,3 +61,9 @@ python3 -m http.server 8080
 ```bash
 npm test
 ```
+
+## Chat with Amazon Q
+
+This entire project was built through a conversation with Amazon Q Developer! From initial Lambda setup to database integration, API creation, website development, and rate limiting - all implemented through natural language requests.
+
+![Chat with Amazon Q](images/screenshot.png)
