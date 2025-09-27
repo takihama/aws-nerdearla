@@ -32,6 +32,30 @@ sam deploy --guided --parameter-overrides DatabaseUrl="your-db-url"
 sam local invoke AwsNerdearlaFunction --env-vars env.json
 ```
 
+## API Testing
+
+```bash
+sam build
+sam local start-api --env-vars env.json
+curl http://localhost:3000/fx-rates
+```
+
+## Website Testing
+
+1. Start the API:
+```bash
+sam build
+sam local start-api --env-vars env.json
+```
+
+2. Serve the website:
+```bash
+cd website
+python3 -m http.server 8080
+```
+
+3. Open browser: `http://localhost:8080`
+
 ## Testing
 
 ```bash
