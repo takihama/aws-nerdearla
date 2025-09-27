@@ -1,0 +1,29 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+Parameters:
+  DatabaseUrl:
+    Type: String
+    Description: NeonDB connection string
+    NoEcho: true
+
+Globals:
+  Function:
+    Timeout: 30
+    Runtime: nodejs20.x
+
+Resources:
+  AwsNerdearlaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/
+      Handler: index.handler
+      Environment:
+        Variables:
+          DATABASE_URL: !Ref DatabaseUrl
+          CRIPTOYA_API_BASE_URL: https://criptoya.com/api
+
+Outputs:
+  AwsNerdearlaFunction:
+    Description: "AWS Nerdearla Lambda Function ARN"
+    Value: !GetAtt AwsNerdearlaFunction.Arn

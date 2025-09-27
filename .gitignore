@@ -1,0 +1,11 @@
+# SAM
+.aws-sam/
+samconfig.toml
+
+# Node.js
+node_modules/
+*.log
+
+# Environment
+.env
+.env.local
