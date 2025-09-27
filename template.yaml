@@ -23,7 +23,25 @@ Resources:
           DATABASE_URL: !Ref DatabaseUrl
           CRIPTOYA_API_BASE_URL: https://criptoya.com/api
 
+  FxRatesApiFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/
+      Handler: api.handler
+      Environment:
+        Variables:
+          DATABASE_URL: !Ref DatabaseUrl
+      Events:
+        GetFxRates:
+          Type: Api
+          Properties:
+            Path: /fx-rates
+            Method: GET
+
 Outputs:
   AwsNerdearlaFunction:
     Description: "AWS Nerdearla Lambda Function ARN"
     Value: !GetAtt AwsNerdearlaFunction.Arn
+  FxRatesApi:
+    Description: "API Gateway endpoint URL"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/fx-rates"
