@@ -14,19 +14,23 @@ exports.handler = async (event, context) => {
         
         // Insert MEP AL30
         if (fxRates.mep?.al30?.ci) {
-            const { ask, bid } = fxRates.mep.al30.ci;
+            const rate = fxRates.mep.al30.ci;
+            const ask = rate.ask || rate.price || 0;
+            const bid = rate.bid || rate.price || 0;
             await client.query(
                 'INSERT INTO fx_rate (id, name, currency, ask, bid, date) VALUES ($1, $2, $3, $4, $5, $6) ON CONFLICT (id) DO UPDATE SET ask = $4, bid = $5, updated_at = NOW()',
-                [`mep_al30_${today}`, 'MEP AL30', 'USD', ask, bid, today]
+                [`mep_${today.slice(-5)}`, 'mep', 'USD', ask, bid, today]
             );
         }
         
         // Insert USDT
         if (fxRates.cripto?.usdt) {
-            const { ask, bid } = fxRates.cripto.usdt;
+            const rate = fxRates.cripto.usdt;
+            const ask = rate.ask || rate.price || 0;
+            const bid = rate.bid || rate.price || 0;
             await client.query(
                 'INSERT INTO fx_rate (id, name, currency, ask, bid, date) VALUES ($1, $2, $3, $4, $5, $6) ON CONFLICT (id) DO UPDATE SET ask = $4, bid = $5, updated_at = NOW()',
-                [`usdt_${today}`, 'USDT', 'USD', ask, bid, today]
+                [`usdt_${today.slice(-5)}`, 'usdt', 'USD', ask, bid, today]
             );
         }
         
